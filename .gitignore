@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+
+# Developer tools (install with: cd tools && npm install)
+node_modules/
+
+# Training files stay in Colab or Drive, not here
+*.pt
+runs/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini

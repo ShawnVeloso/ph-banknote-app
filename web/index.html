@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Php Scanner</title>
+<meta name="description" content="Work-in-progress build of Php Scanner, an offline banknote reader for visually impaired users. Real camera, real on-device LiteRT model, real speech.">
+<meta name="theme-color" content="#000000">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preload" href="fonts/AtkinsonHyperlegible-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/AtkinsonHyperlegible-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/app.css">
+<script type="importmap">{ "imports": { "@litertjs/wasm-utils": "./vendor/litertjs/litert-wasm-utils.js" } }</script>
+<script type="module" src="js/app.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="head">
+    <h1>Php Scanner</h1>
+    <p class="lede">Work-in-progress build of the banknote app in the SRS appendix of the thesis. It speaks each message with the voice of your browser. Pick drawn banknotes for the planned experience, or the camera of this device to run a real detection model on the device. The banknote model is not trained yet, so the camera mode uses a stand-in model that knows everyday objects.</p>
+    <div class="start">
+      <button type="button" class="pb primary" id="startFirst">Play first launch</button>
+      <button type="button" class="pb" id="startLater">Play later launch</button>
+    </div>
+  </header>
+
+  <div class="phone-cell">
+    <div class="holder"><div class="device" id="device"><div class="scr" id="app"></div></div></div>
+  </div>
+
+  <aside class="panel" aria-label="Demo controls">
+    <section class="card">
+      <h2>In front of the camera</h2>
+      <div class="srcpick" role="radiogroup" aria-label="Source of the camera view">
+        <label class="opt"><input type="radio" name="src" value="sim" checked><span>Drawn banknotes (simulated detection)</span></label>
+        <label class="opt"><input type="radio" name="src" value="cam"><span>This device’s camera and a real model</span></label>
+      </div>
+
+      <div id="simBox" class="camctl">
+        <p class="hint">Pick what the camera sees. The app reacts on the scanning screen and pauses on the others.</p>
+        <div class="grp"><h3>Abaca-cotton</h3><div class="notes" id="nAbaca"></div></div>
+        <div class="grp"><h3>Polymer</h3><div class="notes" id="nPoly"></div></div>
+        <div class="grp"><h3>Other</h3><div class="notes" id="nOther"></div></div>
+      </div>
+
+      <div id="camBox" class="camctl" hidden>
+        <p class="hint">The model runs inside this browser, and no frame leaves the device. Until the banknote model is trained, the model is a stand-in trained on everyday objects (COCO). Hold a cup, a bottle, a phone or a book in front of the camera.</p>
+        <div class="field"><label for="selModel">Model</label><select id="selModel"></select><span></span></div>
+        <div class="field"><label for="selAcc">Runs on</label><select id="selAcc"><option value="webgpu">GPU (WebGPU)</option><option value="wasm">CPU (WebAssembly)</option></select><span></span></div>
+        <div class="field"><label for="thr">Threshold</label><input type="range" id="thr" min="0.2" max="0.9" step="0.05" value="0.5"><output id="thrOut" for="thr">0.50</output></div>
+        <label class="opt"><input type="checkbox" id="optPeople" checked><span>Ignore people (a webcam faces you)</span></label>
+        <dl class="readout" aria-label="Live readout">
+          <dt>Status</dt><dd id="roStatus">Camera off</dd>
+          <dt>Camera</dt><dd id="roCamera">Off</dd>
+          <dt>Model</dt><dd id="roModel">None</dd>
+          <dt>Input</dt><dd id="roInput">Not loaded</dd>
+          <dt>Runs on</dt><dd id="roAcc">Not loaded</dd>
+          <dt>Inference</dt><dd id="roInfer">Not loaded</dd>
+          <dt>Frame to result</dt><dd id="roTotal">Not loaded</dd>
+          <dt>Frames per second</dt><dd id="roFps">Not loaded</dd>
+          <dt>Seen now</dt><dd id="roSeen">Not loaded</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>What the phone says</h2>
+      <p class="now">On screen: <b id="now">W1 Welcome</b></p>
+      <ol class="log" id="log"></ol>
+    </section>
+
+    <section class="card">
+      <h2>Speech options</h2>
+      <div class="opts">
+        <label class="opt"><input type="checkbox" id="optSound" checked><span>Speak aloud</span></label>
+        <label class="opt"><input type="radio" name="spoken" id="spWord" value="word" checked><span>Say the name as written: "Php Scanner"</span></label>
+        <label class="opt"><input type="radio" name="spoken" id="spLetters" value="letters"><span>Say the name as letters: "P H P Scanner"</span></label>
+      </div>
+      <p class="small">Voice: <span id="voice">checking</span></p>
+    </section>
+
+    <p class="foot">Screen codes (W1 to S5) and requirement IDs (FR, NFR) follow Tables 13 to 15 of the SRS appendix. <span id="ver">v0.1.0</span>, work in progress.</p>
+  </aside>
+</div>
+
+<div class="sheet" id="sheet"></div>
+<video id="srcVideo" class="hidden-video" muted playsinline aria-hidden="true"></video>
+</body>
+</html>

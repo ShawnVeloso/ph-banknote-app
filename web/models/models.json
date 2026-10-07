@@ -1,0 +1,32 @@
+{
+  "about": "Models the app can load. Each file is a LiteRT (.tflite) model in this folder. To add the trained banknote model, copy its .tflite and label file here and add one entry (see README.md, 'Add a trained model').",
+  "models": [
+    {
+      "id": "yolov8n-coco-320",
+      "name": "YOLOv8-Nano (YOLOv8n)",
+      "trainedOn": "COCO stand-in, not banknotes",
+      "file": "yolov8n_320_float32.tflite",
+      "labels": "coco80_labels.txt",
+      "decoder": "yolov8",
+      "normalize": "0..1",
+      "pad": 114,
+      "iou": 0.5,
+      "sizeMB": 12.2,
+      "source": "Ultralytics yolov8n.pt (COCO), exported with Ultralytics 8.4.174: yolo export model=yolov8n.pt format=litert imgsz=320 (Linux, 2026-10-07)",
+      "note": "Same architecture as the thesis model. The banknote model will be trained from yolov8n.pt and exported the same way."
+    },
+    {
+      "id": "efficientdet-lite0-coco",
+      "name": "EfficientDet-Lite0",
+      "trainedOn": "COCO stand-in, not banknotes",
+      "file": "efficientdet_lite0_int8.tflite",
+      "labels": "coco90_labels.txt",
+      "decoder": "efficientdet",
+      "anchors": { "minLevel": 3, "maxLevel": 7, "scales": 3, "aspects": [1, 2, 0.5], "anchorScale": 3 },
+      "pad": 0,
+      "sizeMB": 4.4,
+      "source": "Google MediaPipe model zoo, object_detector/efficientdet_lite0/int8/1 (downloaded 2026-10-07)",
+      "note": "The mobile version of the EfficientDet family. The thesis compares EfficientDet-D0, a larger member of the same family."
+    }
+  ]
+}

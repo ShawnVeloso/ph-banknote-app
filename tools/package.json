@@ -1,0 +1,8 @@
+{
+  "name": "ph-banknote-app-tools",
+  "private": true,
+  "description": "Developer tools for the Php Scanner web build. The app itself needs no install.",
+  "type": "module",
+  "scripts": { "check": "node check.mjs" },
+  "devDependencies": { "puppeteer-core": "^24.0.0" }
+}
