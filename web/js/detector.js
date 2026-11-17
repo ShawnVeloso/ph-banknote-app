@@ -159,6 +159,9 @@ export async function createDetector(spec, accelerator) {
   if (!DECODERS[spec.decoder]) throw new Error('Unknown decoder "' + spec.decoder + '" in models.json');
   await initRuntime();
   const labels = await loadLabels(spec.labels);
+  if (spec.download && !(await fetch(new URL(spec.file, MODELS_URL), { method: 'HEAD' })).ok) {
+    throw new Error(spec.file + ' is not in this copy of the app. Run "python tools/fetch_models.py" once, then reload.');
+  }
   const t0 = performance.now();
   const model = await loadAndCompile(new URL(spec.file, MODELS_URL).href, { accelerator });
   const loadMs = performance.now() - t0;

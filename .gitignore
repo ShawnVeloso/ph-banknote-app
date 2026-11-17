@@ -13,3 +13,6 @@ runs/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Models whose license does not allow sharing them here (fetch with: python tools/fetch_models.py)
+web/models/efficientdet_lite0_int8.tflite

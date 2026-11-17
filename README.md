@@ -7,8 +7,9 @@ This repository holds the work-in-progress build. Version 0.1 runs in a web brow
 ## Run it on your PC
 
 1. Use Chrome or Edge. Install Python 3 from python.org if `python --version` does not work in a terminal.
-2. Double-click `start.bat`, or run `python serve.py` in this folder.
-3. The app opens at http://127.0.0.1:8080. Keep the black window open. Close it to stop the app.
+2. Once, after cloning: run `python tools/fetch_models.py`. It downloads the EfficientDet-Lite0 model from Google, which this repository cannot include (see "Licenses and credits"). YOLOv8n is already included.
+3. Double-click `start.bat`, or run `python serve.py` in this folder.
+4. The app opens at http://127.0.0.1:8080. Keep the black window open. Close it to stop the app.
 
 Do not open `web/index.html` directly as a file. The browser blocks the camera and the model loader on a page that does not come from a server.
 
@@ -56,7 +57,7 @@ These are browser numbers on a desktop PC. They are not phone results and do not
 
 ## Check that it still works
 
-Once: `cd tools` then `npm install`. After each change, from the repository root: `node tools/check.mjs`. It starts the server, runs the app in headless Chrome with a fake camera, and checks the models, the camera mode, the drawn-banknote mode and the figure pages. "All checks passed" and exit code 0 mean success.
+Once: `cd tools` then `npm install`, and `python tools/fetch_models.py` if you have not run it yet. After each change, from the repository root: `node tools/check.mjs`. It starts the server, runs the app in headless Chrome with a fake camera, and checks the models, the camera mode, the drawn-banknote mode and the figure pages. "All checks passed" and exit code 0 mean success.
 
 ## Figures for the SRS appendix
 
@@ -90,9 +91,9 @@ Each camera frame stays in the browser. The app draws it, runs the model on it, 
 
 ## Licenses and credits
 
-- App code: no license chosen yet, so all rights stay with the authors.
+- App code: GNU Affero General Public License v3.0 (`LICENSE`). The repository includes YOLOv8n weights, which Ultralytics licenses under AGPL-3.0, so the app uses the same license.
 - LiteRT.js 2.5.3, Google, Apache License 2.0 (`web/vendor/litertjs/LICENSE-Apache-2.0.txt`).
 - Atkinson Hyperlegible, Braille Institute of America, SIL Open Font License 1.1 (`web/fonts/OFL.txt`).
-- YOLOv8n weights, Ultralytics, AGPL-3.0 or an Ultralytics Enterprise License. The AGPL-3.0 terms also cover a published app that contains a YOLOv8 model. Check this with the adviser before any public release.
-- EfficientDet-Lite0, Google MediaPipe model zoo. Google's model page states no license for the model file (checked 2026-10-07). Use it for internal tests only.
+- YOLOv8n weights (`web/models/yolov8n_320_float32.tflite`), Ultralytics, AGPL-3.0, exported from `yolov8n.pt` as described in `web/models/README.md`.
+- EfficientDet-Lite0, Google MediaPipe model zoo. Google's model page states no license for the model file (checked 2026-10-07), so this repository does not include it. `tools/fetch_models.py` downloads it from Google and checks its SHA-256.
 - `tools/test_image.jpg`: portrait of Grace Hopper, a U.S. Navy photograph (public domain), from the TensorFlow example images.

@@ -26,6 +26,11 @@
       "pad": 0,
       "sizeMB": 4.4,
       "source": "Google MediaPipe model zoo, object_detector/efficientdet_lite0/int8/1 (downloaded 2026-10-07)",
+      "download": {
+        "url": "https://storage.googleapis.com/mediapipe-models/object_detector/efficientdet_lite0/int8/1/efficientdet_lite0.tflite",
+        "sha256": "0720bf247bd76e6594ea28fa9c6f7c5242be774818997dbbeffc4da460c723bb",
+        "license": "None stated on Google's model page (checked 2026-10-07), so the file is not in this repository"
+      },
       "note": "The mobile version of the EfficientDet family. The thesis compares EfficientDet-D0, a larger member of the same family."
     }
   ]

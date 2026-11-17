@@ -28,6 +28,10 @@ const chrome = process.env.CHROME || [
 ].find((p) => existsSync(p));
 if (!chrome) { console.error('Chrome not found. Set CHROME to the path of chrome.exe.'); process.exit(2); }
 
+const missing = JSON.parse(readFileSync(join(root, 'web/models/models.json'), 'utf8')).models
+  .filter((m) => !existsSync(join(root, 'web/models', m.file))).map((m) => m.file);
+if (missing.length) { console.error('Missing model file(s): ' + missing.join(', ') + '. Run: python tools/fetch_models.py'); process.exit(2); }
+
 const image = 'data:image/jpeg;base64,' + readFileSync(join(here, 'test_image.jpg')).toString('base64');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const problems = [];
